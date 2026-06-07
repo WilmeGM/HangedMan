@@ -9,7 +9,10 @@ public class App {
         String wordToGuess = "java";
         char[] lettersGuessed = new char[wordToGuess.length()];
         boolean guessed = false;
+        boolean contains = false;
         int tries = wordToGuess.length() + 3;
+        int missingLetters = wordToGuess.length();
+        StringBuilder lettersSelected = new StringBuilder();
 
         Utils.HideCharArray(lettersGuessed);
 
@@ -23,32 +26,33 @@ public class App {
             System.out.print("Try to guess: ");
             char inputLetter = scn.next().charAt(0);
 
-            if (wordToGuess.contains(String.valueOf(inputLetter))) { // when input is correct
-                System.out.println();
+            for (int i = 0; i < wordToGuess.length(); i++) {
+                if (inputLetter == wordToGuess.charAt(i)) {
+                    lettersGuessed[i] = inputLetter;
+                    contains = true;
+                    missingLetters--;
+                }
+            }
 
-                if (String.valueOf(lettersGuessed).contains(String.valueOf(inputLetter))) {
+            System.out.println();
+
+            if (contains) {
+                if (lettersSelected.toString().contains(Character.toString(inputLetter))) {
                     System.out.println("Already selected. Worry about your tries.");
                 } else {
                     System.out.println("Yes!");
-                    for (int i = 0; i < wordToGuess.length(); i++) {
-                        if (inputLetter == wordToGuess.charAt(i)) {
-                            lettersGuessed[i] = inputLetter;
-                        }
-                    }
                 }
-
-                tries--;
-                TimeUnit.SECONDS.sleep(2);
-            } else { // when input is incorrect
-                System.out.println();
+            } else {
                 System.out.println("Nope!");
-
-                tries--;
-                TimeUnit.SECONDS.sleep(2);
             }
 
-            
-            if (!String.valueOf(lettersGuessed).contains("_")) {
+            contains = false;
+            lettersSelected.append(inputLetter);
+
+            tries--;
+            TimeUnit.SECONDS.sleep(2);
+
+            if (missingLetters == 0) {
                 guessed = true;
                 break;
             }
@@ -58,13 +62,15 @@ public class App {
             Utils.ClearConsole();
             System.out.println("The word was " + wordToGuess);
             System.out.println("You won.");
-            TimeUnit.SECONDS.sleep(2);
         } else {
             Utils.ClearConsole();
             System.out.println("The word was " + wordToGuess);
             System.out.println("You lost.");
-            TimeUnit.SECONDS.sleep(2);
+            
         }
+
+        TimeUnit.SECONDS.sleep(3);
+        Utils.ClearConsole();
 
         scn.close();
     }
