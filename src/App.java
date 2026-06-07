@@ -4,7 +4,6 @@ import java.util.concurrent.TimeUnit;
 public class App {
     public static void main(String[] args) throws Exception {
 
-        // initializating variables
         Scanner scn = new Scanner(System.in);
         String wordToGuess = "java";
         char[] lettersGuessed = new char[wordToGuess.length()];
