@@ -10,7 +10,6 @@ public class App {
         boolean guessed = false;
         boolean contains = false;
         int tries = wordToGuess.length() + 3;
-        int missingLetters = wordToGuess.length();
         StringBuilder lettersSelected = new StringBuilder();
 
         Utils.HideCharArray(lettersGuessed);
@@ -29,7 +28,6 @@ public class App {
                 if (inputLetter == wordToGuess.charAt(i)) {
                     lettersGuessed[i] = inputLetter;
                     contains = true;
-                    missingLetters--;
                 }
             }
 
@@ -51,21 +49,19 @@ public class App {
             tries--;
             TimeUnit.SECONDS.sleep(2);
 
-            if (missingLetters == 0) {
+            if (!String.valueOf(lettersGuessed).contains("_")) {
                 guessed = true;
                 break;
             }
         }
 
+        Utils.ClearConsole();
+        System.out.println("The word was " + wordToGuess);
+
         if (guessed) {
-            Utils.ClearConsole();
-            System.out.println("The word was " + wordToGuess);
             System.out.println("You won.");
         } else {
-            Utils.ClearConsole();
-            System.out.println("The word was " + wordToGuess);
             System.out.println("You lost.");
-            
         }
 
         TimeUnit.SECONDS.sleep(3);
